@@ -29,8 +29,8 @@ sudo apt-get install -y mongodb-org
 use admin 
 db.createUser(
   {
-    user: "cryptoAdmin",
-    pwd: "DaPStREA2!",
+    user: "",
+    pwd: "",
     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
   }
 )
