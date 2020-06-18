@@ -1,5 +1,5 @@
 # CryptoStore
-A backend for stroing crypto related stats and protfolio data 
+A backend for storing crypto related stats and protfolio data 
 stores data in mongo db 
 uses steramsets to fetch data from coinmarketcap 
 
