@@ -85,4 +85,9 @@ sudo ufw allow from <client_ip> to any port 18630
 
 
 
+### Start streamsets on boot 
+crontab -e
+@reboot /opt/streamsets/streamsets-datacollector-3.16.0/bin/streamsets dc
+
+
 
