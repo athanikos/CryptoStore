@@ -5,7 +5,7 @@
     "pipelineId" : "getExchang7c291cfa-1891-4250-ad07-757064d1c545",
     "title" : "getExchangeRates",
     "description" : "",
-    "uuid" : "b2c2c369-68f9-46ad-b69e-b14948b633f9",
+    "uuid" : "fee2addd-1314-4998-bda4-1fc4a77fc4d0",
     "configuration" : [ {
       "name" : "executionMode",
       "value" : "STANDALONE"
@@ -916,7 +916,7 @@
         "value" : "crypto"
       }, {
         "name" : "configBean.mongoConfig.collection",
-        "value" : "rates"
+        "value" : "exchange_rates"
       }, {
         "name" : "configBean.mongoConfig.authenticationType",
         "value" : "USER_PASS"
@@ -1010,7 +1010,7 @@
         "stageType" : "TARGET",
         "icon" : "mongodb.png",
         "description" : "",
-        "label" : "Rates insert",
+        "label" : "exchange_rates insert",
         "xPos" : 750
       },
       "inputLanes" : [ "ExpressionEvaluator_01OutputLane15924840752090" ],
@@ -1042,11 +1042,11 @@
       "title" : "getExchangeRates",
       "description" : "",
       "created" : 1593777205937,
-      "lastModified" : 1593777336667,
+      "lastModified" : 1593777994659,
       "creator" : "admin",
       "lastModifier" : "admin",
       "lastRev" : "0",
-      "uuid" : "b2c2c369-68f9-46ad-b69e-b14948b633f9",
+      "uuid" : "fee2addd-1314-4998-bda4-1fc4a77fc4d0",
       "valid" : true,
       "metadata" : {
         "labels" : [ ]
