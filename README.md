@@ -3,10 +3,10 @@ A backend for storing crypto related stats and protfolio data
 stores data in mongo db 
 uses steramsets to fetch data from coinmarketcap 
 
-The collections stored in mongo are:
-	prices from coimarket 
-	user_info/tranaactions/notifications  custom made 
-	exchange rates from fixer.io 
+The collections stored in mongo are:	
+	prices from coimarket 	
+	user_info/tranaactions/notifications  custom made 		
+	exchange rates from fixer.io 	
 
 
 
