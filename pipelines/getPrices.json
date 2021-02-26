@@ -2,10 +2,10 @@
   "pipelineConfig" : {
     "schemaVersion" : 6,
     "version" : 18,
-    "pipelineId" : "getPricesfdc0de82-0e09-4234-bf0d-5ed22733f1ac",
+    "pipelineId" : "getPricesb5f0a79c-19ae-4db1-adba-54816641f48e",
     "title" : "getPrices",
     "description" : "",
-    "uuid" : "d02bfa26-90fa-40a6-9a40-c6a9b3733b7b",
+    "uuid" : "0a42a4f9-f76d-4fb5-a86a-370f233e340a",
     "configuration" : [ {
       "name" : "executionMode",
       "value" : "STANDALONE"
@@ -854,15 +854,72 @@
         "value" : "TO_ERROR"
       } ],
       "uiInfo" : {
-        "yPos" : 91,
+        "yPos" : 80,
         "stageType" : "SOURCE",
         "icon" : "httpclient.png",
         "description" : "",
         "label" : "coinmarketcap",
-        "xPos" : 201
+        "xPos" : 182
       },
       "inputLanes" : [ ],
       "outputLanes" : [ "HTTPClient_01OutputLane15924789340920" ],
+      "eventLanes" : [ ],
+      "services" : [ ]
+    }, {
+      "instanceName" : "FieldTypeConverter_01",
+      "library" : "streamsets-datacollector-basic-lib",
+      "stageName" : "com_streamsets_pipeline_stage_processor_fieldtypeconverter_FieldTypeConverterDProcessor",
+      "stageVersion" : "2",
+      "configuration" : [ {
+        "name" : "convertBy",
+        "value" : "BY_FIELD"
+      }, {
+        "name" : "fieldTypeConverterConfigs",
+        "value" : [ {
+          "fields" : [ "/status/timestamp" ],
+          "targetType" : "DATETIME",
+          "treatInputFieldAsDate" : false,
+          "dataLocale" : "en,US",
+          "scale" : -1,
+          "decimalScaleRoundingStrategy" : "ROUND_UNNECESSARY",
+          "dateFormat" : "OTHER",
+          "zonedDateTimeFormat" : "ISO_ZONED_DATE_TIME",
+          "encoding" : "UTF-8",
+          "otherDateFormat" : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        } ]
+      }, {
+        "name" : "wholeTypeConverterConfigs",
+        "value" : [ {
+          "sourceType" : "INTEGER",
+          "targetType" : "INTEGER",
+          "treatInputFieldAsDate" : false,
+          "dataLocale" : "en,US",
+          "scale" : -1,
+          "decimalScaleRoundingStrategy" : "ROUND_UNNECESSARY",
+          "dateFormat" : "YYYY_MM_DD",
+          "zonedDateTimeFormat" : "ISO_ZONED_DATE_TIME",
+          "encoding" : "UTF-8"
+        } ]
+      }, {
+        "name" : "stageOnRecordError",
+        "value" : "TO_ERROR"
+      }, {
+        "name" : "stageRequiredFields",
+        "value" : [ ]
+      }, {
+        "name" : "stageRecordPreconditions",
+        "value" : [ ]
+      } ],
+      "uiInfo" : {
+        "yPos" : 75.73966217041016,
+        "stageType" : "PROCESSOR",
+        "icon" : "converter.png",
+        "description" : "",
+        "label" : "Field Type Converter 1",
+        "xPos" : 458.826416015625
+      },
+      "inputLanes" : [ "HTTPClient_01OutputLane15924789340920" ],
+      "outputLanes" : [ "FieldTypeConverter_01OutputLane15964494777070" ],
       "eventLanes" : [ ],
       "services" : [ ]
     }, {
@@ -898,14 +955,14 @@
         "value" : [ ]
       } ],
       "uiInfo" : {
-        "yPos" : 87,
+        "yPos" : 72.43389129638672,
         "stageType" : "PROCESSOR",
         "icon" : "expression.png",
         "description" : "",
         "label" : "Expression Evaluator 1",
-        "xPos" : 462
+        "xPos" : 831.859375
       },
-      "inputLanes" : [ "HTTPClient_01OutputLane15924789340920" ],
+      "inputLanes" : [ "FieldTypeConverter_01OutputLane15964494777070" ],
       "outputLanes" : [ "ExpressionEvaluator_01OutputLane15924840752090" ],
       "eventLanes" : [ ],
       "services" : [ ]
@@ -1012,12 +1069,210 @@
         "value" : [ ]
       } ],
       "uiInfo" : {
-        "yPos" : 83,
+        "yPos" : 71.04130554199219,
         "stageType" : "TARGET",
         "icon" : "mongodb.png",
         "description" : "",
-        "label" : "Prices insert",
-        "xPos" : 750
+        "label" : "Prices2  insert",
+        "xPos" : 1204.619873046875
+      },
+      "inputLanes" : [ "ExpressionEvaluator_01OutputLane15924840752090" ],
+      "outputLanes" : [ ],
+      "eventLanes" : [ ],
+      "services" : [ ]
+    }, {
+      "instanceName" : "KafkaProducer_01",
+      "library" : "streamsets-datacollector-apache-kafka_2_0-lib",
+      "stageName" : "com_streamsets_pipeline_stage_destination_kafka_KafkaDTarget",
+      "stageVersion" : "7",
+      "configuration" : [ {
+        "name" : "conf.dataFormat",
+        "value" : "JSON"
+      }, {
+        "name" : "conf.messageKeyFormat",
+        "value" : "STRING"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.charset",
+        "value" : "UTF-8"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvFileFormat",
+        "value" : "CSV"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvHeader",
+        "value" : "NO_HEADER"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvReplaceNewLines",
+        "value" : true
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvReplaceNewLinesString",
+        "value" : " "
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvCustomDelimiter",
+        "value" : "|"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvCustomEscape",
+        "value" : "\\"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvCustomQuote",
+        "value" : "\""
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.csvQuoteMode",
+        "value" : "MINIMAL"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.jsonMode",
+        "value" : "MULTIPLE_OBJECTS"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.textFieldPath",
+        "value" : "/text"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.textRecordSeparator",
+        "value" : "\\n"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.textFieldMissingAction",
+        "value" : "ERROR"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.textEmptyLineIfNull",
+        "value" : false
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.avroSchemaSource",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.avroSchema",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.registerSchema",
+        "value" : false
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.schemaRegistryUrlsForRegistration",
+        "value" : [ ]
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.schemaRegistryUrls",
+        "value" : [ ]
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.basicAuthUserInfo",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.schemaLookupMode",
+        "value" : "SUBJECT"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.subject",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.subjectToRegister",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.basicAuthUserInfoForRegistration",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.schemaId",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.includeSchema",
+        "value" : true
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.avroCompression",
+        "value" : "NULL"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.binaryFieldPath",
+        "value" : "/"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.protoDescriptorFile",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.messageType",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.fileNameEL",
+        "value" : null
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.wholeFileExistsAction",
+        "value" : "TO_ERROR"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.includeChecksumInTheEvents",
+        "value" : false
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.checksumAlgorithm",
+        "value" : "MD5"
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.xmlPrettyPrint",
+        "value" : true
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.xmlValidateSchema",
+        "value" : false
+      }, {
+        "name" : "conf.dataGeneratorFormatConfig.xmlSchema",
+        "value" : null
+      }, {
+        "name" : "conf.metadataBrokerList",
+        "value" : "localhost:9092"
+      }, {
+        "name" : "conf.runtimeTopicResolution",
+        "value" : false
+      }, {
+        "name" : "conf.topicExpression",
+        "value" : "${record:value('/topic')}"
+      }, {
+        "name" : "conf.topicWhiteList",
+        "value" : "*"
+      }, {
+        "name" : "conf.topic",
+        "value" : "prices"
+      }, {
+        "name" : "conf.partitionStrategy",
+        "value" : "ROUND_ROBIN"
+      }, {
+        "name" : "conf.partition",
+        "value" : "${0}"
+      }, {
+        "name" : "conf.singleMessagePerBatch",
+        "value" : false
+      }, {
+        "name" : "conf.keySerializer",
+        "value" : "STRING"
+      }, {
+        "name" : "conf.valueSerializer",
+        "value" : "DEFAULT"
+      }, {
+        "name" : "conf.kafkaProducerConfigs",
+        "value" : [ ]
+      }, {
+        "name" : "conf.provideKeytab",
+        "value" : false
+      }, {
+        "name" : "conf.userKeytab",
+        "value" : null
+      }, {
+        "name" : "conf.userPrincipal",
+        "value" : "user/host@REALM"
+      }, {
+        "name" : "conf.avroMessageKey",
+        "value" : "${avro:decode(record:attribute('avroKeySchema'),base64:decodeBytes(record:attribute('kafkaMessageKey')))}"
+      }, {
+        "name" : "conf.stringMessageKey",
+        "value" : "${record:attribute('kafkaMessageKey')}"
+      }, {
+        "name" : "responseConf.sendResponseToOrigin",
+        "value" : false
+      }, {
+        "name" : "responseConf.responseType",
+        "value" : "SUCCESS_RECORDS"
+      }, {
+        "name" : "stageOnRecordError",
+        "value" : "TO_ERROR"
+      }, {
+        "name" : "stageRequiredFields",
+        "value" : [ ]
+      }, {
+        "name" : "stageRecordPreconditions",
+        "value" : [ ]
+      } ],
+      "uiInfo" : {
+        "yPos" : 202,
+        "stageType" : "TARGET",
+        "icon" : "kafka.png",
+        "description" : "",
+        "label" : "prices",
+        "xPos" : 1205.619873046875
       },
       "inputLanes" : [ "ExpressionEvaluator_01OutputLane15924840752090" ],
       "outputLanes" : [ ],
@@ -1044,20 +1299,20 @@
       "services" : [ ]
     },
     "info" : {
-      "pipelineId" : "getPricesfdc0de82-0e09-4234-bf0d-5ed22733f1ac",
+      "pipelineId" : "getPricesb5f0a79c-19ae-4db1-adba-54816641f48e",
       "title" : "getPrices",
       "description" : "",
-      "created" : 1592475529026,
-      "lastModified" : 1593767395790,
+      "created" : 1596449110248,
+      "lastModified" : 1614349232467,
       "creator" : "admin",
       "lastModifier" : "admin",
       "lastRev" : "0",
-      "uuid" : "d02bfa26-90fa-40a6-9a40-c6a9b3733b7b",
+      "uuid" : "0a42a4f9-f76d-4fb5-a86a-370f233e340a",
       "valid" : true,
       "metadata" : {
         "labels" : [ ]
       },
-      "name" : "getPricesfdc0de82-0e09-4234-bf0d-5ed22733f1ac",
+      "name" : "getPricesb5f0a79c-19ae-4db1-adba-54816641f48e",
       "sdcVersion" : "3.16.0",
       "sdcId" : "e103d6e7-b14b-11ea-bb59-3bb0e731feaa"
     },
@@ -1440,7 +1695,7 @@
     } ],
     "dataRuleDefinitions" : [ ],
     "driftRuleDefinitions" : [ ],
-    "uuid" : "8263ccaa-9216-4045-a43c-47bf34908c5a",
+    "uuid" : "c94b92dc-73e8-4c3d-9bc1-b392bec1ce8b",
     "configuration" : [ {
       "name" : "emailIDs",
       "value" : [ ]
@@ -1448,8 +1703,8 @@
       "name" : "webhookConfigs",
       "value" : [ ]
     } ],
-    "ruleIssues" : [ ],
-    "configIssues" : [ ]
+    "configIssues" : [ ],
+    "ruleIssues" : [ ]
   },
   "libraryDefinitions" : null
 }
